@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Convead</name>
+    <version>1.0</version>
+    <author>Convead</author>
+    <code>convead</code>
+	<file path="catalog/controller/checkout/cart.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/function(.*)[aA][dD]{2}(.*)\((.*)\)(.*)\{[\s\S]*?(if(.*)\((.*)\!\$json(.*)\)(.*)\{[\s\S]*?(?=\$json\['success'\]))/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('setting/setting');
+				if ($convead_status = $this->config->get('convead_status')) {		
+					$this->load->model('module/convead');
+					$this->model_module_convead->updateCart();
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/function(.*)remove(.*)[\s\S]*?\$this->response->setOutput[\s\S]*?[\n\r]/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('setting/setting');
+				if ($convead_status = $this->config->get('convead_status')) {
+					$this->load->model('module/convead');
+					$this->model_module_convead->updateCart();			
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/function(.*)edit(.*)[\s\S]*?reward[\s\S]*?[\n\r]/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('setting/setting');
+				if ($convead_status = $this->config->get('convead_status')) {
+					$this->load->model('module/convead');
+					$this->model_module_convead->updateCart();			
+				}
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/product.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/function(.*)index(.*)\((.*)\)(.*)\{/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('setting/setting');
+				if ($convead_status = $this->config->get('convead_status')) {
+					$this->load->model('module/convead');
+					if ($this->request->get['product_id']) $this->model_module_convead->productViewed($this->request->get['product_id']);		
+				}
+			]]></add>
+		</operation>
+	</file>
+</modification>

@@ -36,6 +36,18 @@
 			]]></add>
 		</operation>
 	</file>
+  <file path="catalog/controller/checkout/success.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/\$this->load->language[\s\S]*?[\n\r]/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('setting/setting');
+				if ($convead_status = $this->config->get('convead_status') and !empty($this->session->data['order_id'])) {
+					$this->load->model('module/convead');
+					$this->model_module_convead->orderAdd($this->session->data['order_id']);		
+				}
+			]]></add>
+		</operation>
+	</file>
 	<file path="catalog/controller/product/product.php">
 		<operation>
 			<search regex="true" limit="1"><![CDATA[/function(.*)index(.*)\((.*)\)(.*)\{/i]]></search>

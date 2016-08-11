@@ -17,6 +17,12 @@
 	</div>
 
 	<div class="container-fluid">
+		<?php if (!function_exists('curl_exec')): ?>
+			<div class="alert alert-warning">
+				<i class="fa fa-check-circle"></i>
+				<?php echo $curl_disable; ?>
+			</div>
+		<?php endif; ?>
 		<?php if ($error_warning): ?>
 			<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
 				<button type="button" class="close" data-dismiss="alert">&times;</button>

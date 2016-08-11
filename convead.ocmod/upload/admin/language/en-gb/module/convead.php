@@ -8,3 +8,4 @@ $_['text_enabled']     = 'Enabled';
 $_['text_disabled']    = 'Disabled';
 $_['button_save']      = 'Save';
 $_['button_cancel']    = 'Cancel';
+$_['curl_disable']     = 'Attention! On the hosting is not enabled CURL support. It is necessary for the operation of the module.';

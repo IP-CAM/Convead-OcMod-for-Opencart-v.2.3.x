@@ -8,7 +8,6 @@ class ControllerModuleConvead extends Controller {
 		if (strpos(VERSION,'2.0.0.0') === false) {
 			$this->load->model('extension/event');
 			$modelEvent = $this->model_extension_event;
-			
 		}
 		else {
 			$this->load->model('tool/event');
@@ -158,6 +157,8 @@ class ControllerModuleConvead extends Controller {
 		else {
 			$data['error_warning'] = '';
 		}
+		
+		if (!function_exists('curl_exec')) $data['error_warning'] .= $this->language->get('curl_disable');
 		
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(

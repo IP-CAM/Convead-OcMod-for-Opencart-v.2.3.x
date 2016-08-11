@@ -1,6 +1,7 @@
 <?php  
 
 class ControllerModuleConvead extends Controller {
+
 	public function index() {
 		$this->load->language('module/convead');
 		$this->load->model('setting/setting');
@@ -20,9 +21,9 @@ class ControllerModuleConvead extends Controller {
 		
 		$data['view_product'] = isset($this->session->cnv_view_product) ? $this->session->cnv_view_product : false;
 		
-		$template = $this->config->get('config_template') . '/template/module/convead.tpl';
-		if (file_exists(DIR_TEMPLATE . $template)) return $this->load->view($template, $data);
-		else return $this->load->view('module/convead.tpl', $data);
+		$template_path = '/template/module/convead.tpl';
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template').$template_path )) return $this->load->view($this->config->get('config_template').$template_path, $data);
+		else return $this->load->view('default/'.$template_path, $data);
 	}
 	
 	
@@ -52,5 +53,5 @@ class ControllerModuleConvead extends Controller {
 			$this->model_module_convead->orderDelete($order_id);
 		}
 	}
+
 }
-	

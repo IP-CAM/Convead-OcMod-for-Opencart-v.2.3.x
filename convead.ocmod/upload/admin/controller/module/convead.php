@@ -31,8 +31,7 @@ class ControllerModuleConvead extends Controller {
 		throw new \Exception($errstr);			
 	}
 	
-	private function addCustomField() {
-		$this->load->model('module/convead');				
+	private function addCustomField() {		
 		$old_handler = set_error_handler(array($this, 'customErrorHandler'), E_USER_NOTICE);				
 		
 		try {
@@ -90,7 +89,6 @@ class ControllerModuleConvead extends Controller {
 	
 	private function deleteCustomField()
 	{
-		$this->load->model('module/convead');		
 		$old_handler = set_error_handler(array($this,'customErrorHandler'),E_USER_NOTICE);
 		
 		try {
@@ -140,7 +138,7 @@ class ControllerModuleConvead extends Controller {
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('convead', $this->request->post);
-			$this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('module/convead', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 		
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -167,7 +165,7 @@ class ControllerModuleConvead extends Controller {
 		);
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL')
 		);
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
@@ -178,7 +176,7 @@ class ControllerModuleConvead extends Controller {
 		$data['button_cancel'] = $this->language->get('button_cancel');
 		
 		$data['action'] = $this->url->link('module/convead', 'token=' . $this->session->data['token'], 'SSL');
-		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'], 'SSL');
+		$data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 		
 		if (isset($this->request->post['convead_status'])) {
 			$data['convead_status'] = $this->request->post['convead_status'];

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
     <name>Convead</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <author>Convead</author>
     <code>convead</code>
 	<file path="catalog/controller/checkout/cart.php">

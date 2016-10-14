@@ -49,9 +49,9 @@
 						</div>			
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-apikey"><?php echo $entry_apikey; ?></label>
+						<label class="col-sm-2 control-label" for="input-appkey"><?php echo $entry_app_key; ?></label>
 						<div class="col-sm-10">
-							<input name="convead_apikey" id="input-apikey" class="form-control" type="text" value="<?php echo $convead_apikey;?>">                
+							<input name="convead_app_key" id="input-appkey" class="form-control" type="text" value="<?php echo $convead_app_key;?>">                
 						</div>
 					</div>
 				</form>

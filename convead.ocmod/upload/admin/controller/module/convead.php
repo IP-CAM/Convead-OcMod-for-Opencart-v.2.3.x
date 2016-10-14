@@ -147,7 +147,7 @@ class ControllerModuleConvead extends Controller {
 		$data['text_disabled'] = $this->language->get('text_disabled');		
 		
 		$data['entry_status'] = $this->language->get('entry_status');
-		$data['entry_apikey'] = $this->language->get('entry_apikey');
+		$data['entry_app_key'] = $this->language->get('entry_app_key');
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -185,18 +185,11 @@ class ControllerModuleConvead extends Controller {
 			$data['convead_status'] = $this->config->get('convead_status');
 		}
 		
-		if (isset($this->request->post['convead_apikey'])) {
-			$data['convead_apikey'] = $this->request->post['convead_apikey'];
+		if (isset($this->request->post['convead_app_key'])) {
+			$data['convead_app_key'] = $this->request->post['convead_app_key'];
 		}
 		else {
-			$data['convead_apikey'] = $this->config->get('convead_apikey');
-		}
-		
-		if (isset($this->request->post['convead_apisecret'])) {
-			$data['convead_apisecret'] = $this->request->post['convead_apisecret'];
-		}
-		else {
-			$data['convead_apisecret'] = $this->config->get('convead_apisecret');
+			$data['convead_app_key'] = $this->config->get('convead_app_key');
 		}
 		
 		$data['header'] = $this->load->controller('common/header');

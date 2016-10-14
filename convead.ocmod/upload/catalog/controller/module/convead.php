@@ -8,9 +8,9 @@ class ControllerModuleConvead extends Controller {
 		$this->load->model('module/convead');
 		$this->load->model('account/customer');
 		
-		if (!($this->config->get('convead_status') && $apikey = $this->config->get('convead_apikey'))) return false;
+		if (!($app_key = $this->config->get('convead_app_key'))) return false;
 		
-		$data['apikey'] = $this->config->get('convead_apikey');
+		$data['app_key'] = $app_key;
 		
 		$data['visitor_uid'] = false;
 		
@@ -25,7 +25,6 @@ class ControllerModuleConvead extends Controller {
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template').$template_path )) return $this->load->view($this->config->get('config_template').$template_path, $data);
 		else return $this->load->view('default/'.$template_path, $data);
 	}
-	
 	
 	// создан заказ, но не подтвержден посетителем
 	public function order_add($order_id) {

@@ -56,7 +56,7 @@ class ControllerModuleConvead extends Controller {
 			});			
 			
 			if (!$convead_uid_field) {
-				$data =array("type"=>"text", "location"=>"account", "status"=>"0", "sort_order"=>"0");
+				$data =array("type"=>"text", "location"=>"account", "status"=>"0", "sort_order"=>"0", "value"=>"", "validation"=>"");
 				set_error_handler(array($this, 'customErrorHandler'), E_USER_NOTICE);
 				try {
 					$this->load->model('sale/customer_group');

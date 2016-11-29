@@ -1,6 +1,6 @@
 <?php
 
-class ModelModuleConvead extends Model {
+class ModelExtensionModuleConvead extends Model {
   
   public function updateCart() {
     if (!($tracker = $this->_includeTracker())) return;

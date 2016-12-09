@@ -94,7 +94,7 @@ class ModelExtensionModuleConvead extends Model {
       case 1:
         $state = 'new';
         break;
-      case 3:
+      /*case 3:
         $state = 'shipped';
         break;
       case 0:
@@ -102,7 +102,7 @@ class ModelExtensionModuleConvead extends Model {
         break;
       case 7:
         $state = 'cancelled';
-        break;
+        break;*/
     }
     return $state;
   }

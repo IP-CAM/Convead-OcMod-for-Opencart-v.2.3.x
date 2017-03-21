@@ -75,7 +75,7 @@ class ModelModuleConvead extends Model {
     }
 
     // признак нового заказа
-    if ($order['order_status_id'] == $this->config->get('config_order_status_id')) {
+    if ($order['order_status_id'] == 0 or $order['order_status_id'] == $this->config->get('config_order_status_id')) {
 
       if (isset($this->session->data['cnv_last_order_id']) and $this->session->data['cnv_last_order_id'] == $order_id) return false;
       else $this->session->data['cnv_last_order_id'] = $order_id;

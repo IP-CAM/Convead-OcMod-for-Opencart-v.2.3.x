@@ -60,4 +60,13 @@
 			]]></add>
 		</operation>
 	</file>
+	<file path="catalog/controller/payment/payanyway.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/\$data['order_id'] = $order_id;]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('module/convead');
+				$this->model_module_convead->orderAdd($order_id);
+			]]></add>
+		</operation>
+	</file>
 </modification>

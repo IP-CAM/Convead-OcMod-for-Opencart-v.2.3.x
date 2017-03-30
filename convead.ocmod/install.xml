@@ -62,7 +62,7 @@
 	</file>
 	<file path="catalog/controller/payment/payanyway.php">
 		<operation>
-			<search regex="true" limit="1"><![CDATA[/\$data['order_id'] = $order_id;]></search>
+			<search regex="true" limit="1"><![CDATA[/\$data[\'order_id\'] = \$order_id;[\s\S]*?[\n\r]/i]]></search>
 			<add><![CDATA[$0 		
 				$this->load->model('extension/module/convead');
 				$this->model_extension_module_convead->orderAdd($order_id);

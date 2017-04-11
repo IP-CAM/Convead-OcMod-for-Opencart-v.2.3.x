@@ -60,13 +60,51 @@
 			]]></add>
 		</operation>
 	</file>
+
 	<file path="catalog/controller/payment/payanyway.php">
 		<operation>
 			<search regex="true" limit="1"><![CDATA[/\$data[\'order_id\'] = \$order_id;[\s\S]*?[\n\r]/i]]></search>
-			<add><![CDATA[$0 		
+			<add><![CDATA[$0 	
+			  /* support payanyway module */	
 				$this->load->model('module/convead');
 				$this->model_module_convead->orderAdd($order_id);
 			]]></add>
 		</operation>
 	</file>
+
+
+	<file path="catalog/controller/module/kw_flycart.php">
+		<operation>
+			<search regex="false"><![CDATA[return $this->loader();]]></search>
+			<add position="before"><![CDATA[
+			  /* support kw_flycart module */	
+				$this->load->model('module/convead');
+				$this->model_module_convead->updateCart();	
+			]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/checkout/simplecheckout_cart.php">
+		<operation>
+			<search regex="false"><![CDATA[if (!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) {]]></search>
+			<add position="before"><![CDATA[
+			  /* support simple cart module */	
+			  if (!empty($this->request->post['remove']) or !empty($this->request->post['quantity'])) {
+					$this->load->model('module/convead');
+					$this->model_module_convead->updateCart();	
+				}
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/checkout/simplecheckout.php">
+		<operation>
+			<search regex="false"><![CDATA[$this->session->data['order_id'] = $order_id;]]></search>
+			<add position="after"><![CDATA[
+			  /* support simple checkout module */	
+				$this->load->model('module/convead');
+				$this->model_module_convead->orderAdd($order_id);
+			]]></add>
+		</operation>
+	</file>
+
 </modification>

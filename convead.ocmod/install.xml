@@ -6,8 +6,8 @@
     <code>convead</code>
 	<file path="catalog/controller/checkout/cart.php">
 		<operation>
-			<search regex="true" limit="1"><![CDATA[/function(.*)[aA][dD]{2}(.*)\((.*)\)(.*)\{[\s\S]*?(if(.*)\((.*)\!\$json(.*)\)(.*)\{[\s\S]*?(?=\$json\['success'\]))/i]]></search>
-			<add><![CDATA[$0 		
+			<search regex="false"><![CDATA[$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);]]></search>
+			<add position="after"><![CDATA[
 				$this->load->model('setting/setting');
 				if ($convead_status = $this->config->get('convead_status')) {		
 					$this->load->model('module/convead');

@@ -30,7 +30,7 @@ class ControllerExtensionModuleConvead extends Controller {
 	public function order_add($order_id) {
 	}
 	
-	public function order_add_2_2($route, $order_id) {	
+	public function order_add_2_2($route, $data, $order_id) {	
 		if ($order_id > 0) {		
 			$this->load->model('extension/module/convead');	
 			$this->model_extension_module_convead->orderAdd($order_id);

@@ -20,7 +20,8 @@ class ControllerExtensionModuleConvead extends Controller {
 			$modelEvent->addEvent('convead', 'post.order.delete', 'extension/module/convead/order_delete');			
 		}
 		else {
-			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrder/after' , 'extension/module/convead/order_add_2_2');				
+			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrder/after' , 'extension/module/convead/order_add_2_2');		
+			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/editOrder/after' , 'extension/module/convead/order_update_2_2');			
 		}
 		$this->addCustomField();
 	}

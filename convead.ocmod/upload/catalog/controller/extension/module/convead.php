@@ -37,6 +37,15 @@ class ControllerExtensionModuleConvead extends Controller {
 		}
 	}
 	
+	// изменен заказ
+	public function order_update_2_2($route, $data) {	
+		if (!empty($data[0])) {
+			$order_id = $data[0];
+			$this->load->model('extension/module/convead');	
+			$this->model_extension_module_convead->orderState($order_id);
+		}
+	}
+	
 	// заказ подтвержден или изменен его статус
 	public function order_history_add($order_id) {
 		if ($order_id > 0) {	

@@ -39,11 +39,35 @@ class ModelExtensionModuleConvead extends Model {
     $tracker->webHookOrderUpdate($order_id, 'cancelled');
   }
 
-  public function orderState($order_id, $state) {
+  public function orderState($order_id) {
     if (!($tracker = $this->_includeTrackerAnonym())) return;
+
+    $this->load->model('checkout/order');
+    $this->load->model('account/order');  
+    $this->load->model('catalog/product');
+
     $this->visitor_info = false;
-    $tracker->webHookOrderUpdate($order_id, $this->_switchState($state));
+
+    $order = $this->model_checkout_order->getOrder($order_id);
+    
+    $revenue = $order['total'];
+
+    $products = $this->model_account_order->getOrderProducts($order_id); 
+    foreach($products as $product) {
+      $items[] = array(
+        'product_id' => $product['product_id'],
+        'product_name' => $product['name'],
+        'qnt' => $product['quantity'],
+        'price' => $product['price'],
+        'product_url' => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+      );
+    }
+
+    $state_id = (isset($this->request->post['order_status_id']) ? $this->request->post['order_status_id'] : $order['order_status_id']);
+
+    $tracker->webHookOrderUpdate($order_id, $this->_switchState($state_id), $revenue, $items);
   }
+
 
   public function orderAdd($order_id) {        
     if ($order_id == 0) return false;

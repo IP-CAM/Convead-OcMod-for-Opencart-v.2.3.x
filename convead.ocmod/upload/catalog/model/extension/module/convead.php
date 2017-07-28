@@ -77,17 +77,27 @@ class ModelExtensionModuleConvead extends Model {
     $this->load->model('account/order');  
     $this->load->model('catalog/product');
       
-    $order = $this->model_checkout_order->getOrder($order_id);
-    
-    $revenue = $order['total'];
-    $items = array();
+    // fix for Moneymaker2 - buy one click
+    if (is_array($order_id) and !empty($order_id[0])) {
+      $order = $order_id[0];
+      if (!isset($order['products'])) return true;
+      $products = $order['products']; 
+      $order_id = uniqid();
+      $order['order_status_id'] = 0;
+    }
+    else {
+      $order = $this->model_checkout_order->getOrder($order_id);
+      $products = $this->model_account_order->getOrderProducts($order_id); 
+    }
 
     if (trim($order['firstname'])) $this->visitor_info['first_name'] = trim($order['firstname']);
     if (trim($order['lastname'])) $this->visitor_info['last_name'] = trim($order['lastname']);
     if (trim($order['email'])) $this->visitor_info['email'] = trim($order['email']);
     if (trim($order['telephone'])) $this->visitor_info['phone'] = trim($order['telephone']);
   
-    $products = $this->model_account_order->getOrderProducts($order_id); 
+    $revenue = $order['total'];
+  
+    $items = array();
     foreach($products as $product) {
       $items[] = array(
         'product_id' => $product['product_id'],

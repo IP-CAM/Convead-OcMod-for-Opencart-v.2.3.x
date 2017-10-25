@@ -4,47 +4,48 @@ class ControllerExtensionModuleConvead extends Controller {
 	
 	private $error = array();
 	
-	public function install() {		
+	public function install() {
 		if (strpos(VERSION,'2.0.0.0') === false) {
 			$this->load->model('extension/event');
 			$modelEvent = $this->model_extension_event;
 		}
 		else {
 			$this->load->model('tool/event');
-			$modelEvent = $this->model_tool_event;				
+			$modelEvent = $this->model_tool_event;
 		}
 		
-		if (strpos(VERSION,'2.0.') === 0 || strpos(VERSION,'2.1.') === 0) {	
+		if (strpos(VERSION,'2.0.') === 0 || strpos(VERSION,'2.1.') === 0) {
 			$modelEvent->addEvent('convead', 'post.order.add', 'extension/module/convead/order_add');
-			$modelEvent->addEvent('convead', 'post.order.history.add', 'extension/module/convead/order_history_add');	
-			$modelEvent->addEvent('convead', 'post.order.delete', 'extension/module/convead/order_delete');			
+			$modelEvent->addEvent('convead', 'post.order.history.add', 'extension/module/convead/order_history_add');
+			$modelEvent->addEvent('convead', 'post.order.delete', 'extension/module/convead/order_delete');
 		}
 		else {
-			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrder/after' , 'extension/module/convead/order_add_2_2');		
-			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/editOrder/after' , 'extension/module/convead/order_update_2_2');			
+			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrder/after' , 'extension/module/convead/order_add_2_2');
+			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/editOrder/after' , 'extension/module/convead/order_update_2_2');
+			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrderHistory/after' , 'extension/module/convead/order_update_2_2');
 		}
 		$this->addCustomField();
 	}
 	
 	public function customErrorHandler($errno, $errstr, $errfile, $errline) {
-		if (!(error_reporting() & $errno)) return;	
+		if (!(error_reporting() & $errno)) return;
 		
-		throw new \Exception($errstr);			
+		throw new \Exception($errstr);
 	}
 	
-	private function addCustomField() {		
-		$old_handler = set_error_handler(array($this, 'customErrorHandler'), E_USER_NOTICE);				
+	private function addCustomField() {
+		$old_handler = set_error_handler(array($this, 'customErrorHandler'), E_USER_NOTICE);
 		
 		try {
 			$this->load->model('sale/custom_field');
-			$model_custom_field = $this->model_sale_custom_field;								
+			$model_custom_field = $this->model_sale_custom_field;
 		}
-		catch(\Exception $e) {			
+		catch(\Exception $e) {		
 			try {
 				$this->load->model('customer/custom_field');
 				$model_custom_field = $this->model_customer_custom_field;
 			}
-			catch(\Exception $ex){}					
+			catch(\Exception $ex){}				
 		}
 		set_error_handler($old_handler);
 		
@@ -54,7 +55,7 @@ class ControllerExtensionModuleConvead extends Controller {
 			$convead_uid_field = array_filter($custom_fields, function($custom_field){
 				if ($custom_field['name'] == 'convead_uid')
 				return $custom_field;
-			});			
+			});
 			
 			if (!$convead_uid_field) {
 				$data =array("type"=>"text", "location"=>"account", "status"=>"0", "sort_order"=>"0");

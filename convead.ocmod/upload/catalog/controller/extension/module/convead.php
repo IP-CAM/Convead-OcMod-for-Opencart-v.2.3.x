@@ -21,7 +21,7 @@ class ControllerExtensionModuleConvead extends Controller {
 		
 		$data['view_product'] = isset($this->session->cnv_view_product) ? $this->session->cnv_view_product : false;
 		
-		$template_path = 'extension/module/convead.tpl';
+		$template_path = 'extension/module/convead';
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template').$template_path )) return $this->load->view($this->config->get('config_template').$template_path, $data);
 		else return $this->load->view($template_path, $data);
 	}

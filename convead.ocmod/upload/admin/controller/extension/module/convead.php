@@ -5,7 +5,14 @@ class ControllerExtensionModuleConvead extends Controller {
 	private $error = array();
 	
 	public function install() {
-		if (strpos(VERSION,'2.0.0.0') === false) {
+		if (strpos(VERSION, '3.') === 0) {
+			$this->load->model('setting/event');
+			$modelEvent = $this->model_setting_event;
+			
+			$this->load->model('setting/module');
+			$this->model_setting_module->addModule('convead', array('name'=>'Convead', 'status'=>1));
+		}
+		else if (strpos(VERSION, '2.0.0.0') === false) {
 			$this->load->model('extension/event');
 			$modelEvent = $this->model_extension_event;
 		}
@@ -14,7 +21,7 @@ class ControllerExtensionModuleConvead extends Controller {
 			$modelEvent = $this->model_tool_event;
 		}
 		
-		if (strpos(VERSION,'2.0.') === 0 || strpos(VERSION,'2.1.') === 0) {
+		if (strpos(VERSION, '2.0.') === 0 || strpos(VERSION,'2.1.') === 0) {
 			$modelEvent->addEvent('convead', 'post.order.add', 'extension/module/convead/order_add');
 			$modelEvent->addEvent('convead', 'post.order.history.add', 'extension/module/convead/order_history_add');
 			$modelEvent->addEvent('convead', 'post.order.delete', 'extension/module/convead/order_delete');
@@ -24,7 +31,26 @@ class ControllerExtensionModuleConvead extends Controller {
 			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/editOrder/after' , 'extension/module/convead/order_update_2_2');
 			$modelEvent->addEvent('convead', 'catalog/model/checkout/order/addOrderHistory/after' , 'extension/module/convead/order_update_2_2');
 		}
+				
 		$this->addCustomField();
+	}
+	
+	public function uninstall() {
+		if (strpos(VERSION, '3.') === 0) {
+			$this->load->model('setting/event');
+			$modelEvent = $this->model_setting_event;
+		}
+		else if (strpos(VERSION,'2.0.0.0') === false) {
+			$this->load->model('extension/event');
+			$modelEvent = $this->model_extension_event;
+		}
+		else {
+			$this->load->model('tool/event');
+			$modelEvent = $this->model_tool_event;
+		}
+		$modelEvent->deleteEvent('convead');
+		
+		$this->deleteCustomField();
 	}
 	
 	public function customErrorHandler($errno, $errstr, $errfile, $errline) {
@@ -58,7 +84,7 @@ class ControllerExtensionModuleConvead extends Controller {
 			});
 			
 			if (!$convead_uid_field) {
-				$data =array("type"=>"text", "location"=>"account", "status"=>"0", "sort_order"=>"0");
+				$data =array("type"=>"text", "location"=>"account", "value"=>"convead", "status"=>"0", "sort_order"=>"0");
 				set_error_handler(array($this, 'customErrorHandler'), E_USER_NOTICE);
 				try {
 					$this->load->model('sale/customer_group');
@@ -91,7 +117,7 @@ class ControllerExtensionModuleConvead extends Controller {
 	
 	private function deleteCustomField()
 	{
-		$old_handler = set_error_handler(array($this,'customErrorHandler'),E_USER_NOTICE);
+		$old_handler = set_error_handler(array($this,'customErrorHandler'), E_USER_NOTICE);
 		
 		try {
 			$this->load->model('sale/custom_field');
@@ -120,19 +146,6 @@ class ControllerExtensionModuleConvead extends Controller {
 		}
 	}
 	
-	public function uninstall() {
-		if (strpos(VERSION,'2.0.0.0') === false) {
-			$this->load->model('extension/event');
-			$modelEvent = $this->model_extension_event;
-		}
-		else {
-			$this->load->model('tool/event');
-			$modelEvent = $this->model_tool_event;
-		}
-		$modelEvent->deleteEvent('convead');
-		$this->deleteCustomField();
-	}
-	
 	public function index() {
 		$this->load->language('extension/module/convead');
 		
@@ -140,7 +153,7 @@ class ControllerExtensionModuleConvead extends Controller {
 		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->model_setting_setting->editSetting('convead', $this->request->post);
-			$this->response->redirect($this->url->link('extension/module/convead', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->url->link('extension/module/convead', 'user_token=' . $this->session->data['user_token'], 'SSL'));
 		}
 		
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -163,22 +176,22 @@ class ControllerExtensionModuleConvead extends Controller {
 		$data['breadcrumbs'] = array();
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], 'SSL')
 		);
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('extension/module', 'user_token=' . $this->session->data['user_token'], 'SSL')
 		);
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('module/category', 'token=' . $this->session->data['token'], 'SSL')
+			'href' => $this->url->link('module/category', 'user_token=' . $this->session->data['user_token'], 'SSL')
 		);
 		
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
 		
-		$data['action'] = $this->url->link('extension/module/convead', 'token=' . $this->session->data['token'], 'SSL');
-		$data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
+		$data['action'] = $this->url->link('extension/module/convead', 'user_token=' . $this->session->data['user_token'], 'SSL');
+		$data['cancel'] = $this->url->link('extension/module', 'user_token=' . $this->session->data['user_token'], 'SSL');
 		
 		if (isset($this->request->post['convead_status'])) {
 			$data['convead_status'] = $this->request->post['convead_status'];
@@ -194,11 +207,13 @@ class ControllerExtensionModuleConvead extends Controller {
 			$data['convead_app_key'] = $this->config->get('convead_app_key');
 		}
 		
+		$data['curl_exec'] = function_exists('curl_exec');
+		
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 		
-		$this->response->setOutput($this->load->view('extension/module/convead.tpl', $data));
+		$this->response->setOutput($this->load->view('extension/module/convead', $data));
 	}
 	
 	protected function validate() {

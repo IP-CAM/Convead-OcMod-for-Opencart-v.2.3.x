@@ -17,13 +17,13 @@
 	</div>
 
 	<div class="container-fluid">
-		{% if curl_exec %}
+		{% if curl_exec == false %}
 			<div class="alert alert-warning">
 				<i class="fa fa-check-circle"></i>
 				{{ curl_disable }}
 			</div>
 		{% endif %}
-		{% if error_warning %}
+		{% if error_warning == true %}
 			<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 			</div>

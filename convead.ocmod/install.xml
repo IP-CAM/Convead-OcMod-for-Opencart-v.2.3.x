@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
     <name>Convead</name>
-    <version>2.1</version>
+    <version>2.2</version>
     <author>Convead</author>
     <code>convead</code>
 	<file path="catalog/controller/checkout/cart.php">
@@ -66,6 +66,27 @@
 			<add><![CDATA[$0 		
 				$this->load->model('extension/module/convead');
 				$this->model_extension_module_convead->orderAdd($order_id);
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/api/order.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/Add keys for missing post vars[\s\S]*?[\n\r]/i]]></search>
+			<add><![CDATA[$0 		
+				$this->load->model('extension/module/convead');
+				$this->model_extension_module_convead->orderState($this->request->get['order_id'], $this->request->post['order_status_id']);
+			]]></add>
+		</operation>
+	</file>
+	<file path="system/library/simple/simplecheckout.php">
+		<operation>
+			<search regex="true" limit="1"><![CDATA[/public function setPreventDeleteFlag[\s\S]*?[\n\r]/i]]></search>
+			<add><![CDATA[$0
+				/* Convead */
+        /* Код необходим для отслеживания нажатия на кнопку формления заказа (до оплаты). */
+				$this->load->model('extension/module/convead');	
+				if (isset($this->session->data['order_id'])) $this->model_extension_module_convead->orderAdd($this->session->data['order_id']);
+				/* / Convead */
 			]]></add>
 		</operation>
 	</file>

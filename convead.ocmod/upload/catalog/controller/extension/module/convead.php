@@ -31,7 +31,13 @@ class ControllerExtensionModuleConvead extends Controller {
 	}
 	
 	public function order_add_2_2($route, $data, $order_id) {	
-		if ($order_id > 0) {		
+		/*
+		Если заказ создан модулем simplecheckout, то игнорируем этот вызов
+		т.к. создание заказа происходит до окончания его оформления.
+		Отправка события покупки будет выполнено через код-модификатор
+		внутри кода simplecheckout.
+		*/
+		if ($order_id > 0 && empty($this->session->data['simple_cart_id'])) {		
 			$this->load->model('extension/module/convead');	
 			$this->model_extension_module_convead->orderAdd($order_id);
 		}

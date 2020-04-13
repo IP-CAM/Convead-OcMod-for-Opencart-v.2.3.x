@@ -27,7 +27,7 @@ class ModelExtensionModuleConvead extends Model {
       $this->session->cnv_view_product = array(
         'product_id' => $product_id,
         'product_name' => htmlspecialchars_decode($product_info['name']),
-        'price' => ($product_info['special'] ? $product_info['special'] : $product_info['price']),
+        'price' => ((float)$product_info['special'] ? $product_info['special'] : $product_info['price']),
         'product_url' => htmlspecialchars_decode($this->url->link('product/product', 'product_id=' . $product_id))
       );
     }

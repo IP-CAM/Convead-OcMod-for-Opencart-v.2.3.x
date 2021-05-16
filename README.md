@@ -1,4 +1,36 @@
-See English readme [below](#system-requirements).
+CMS requirements
+----------------
+
+* Supported by OpenCart version 2.3.x
+
+Automatic installation
+--------------------------
+1. Download the archive of the mold https://github.com/Convead/opencart2_convead/raw/master/convead.ocmod.zip;
+2. Go to the site control panel in the section "Modules"> "Installing extensions" ("Extensions"> "Extension Installer");
+3. Click "Upload" and select the file "convead.ocmod.zip", click "Continue";
+4. Go to the site control panel in the section "Modules"> "Modules" ("Extensions"> "Modules") find Convead and click "Activate" ("Install");
+5. Click "Edit";
+6. Enter app_key from your convead account;
+7. Change "Status" to "Enabled";
+8. Save;
+9. Go to the site control panel in the "System"> "Design"> "Layouts" ("System"> "Design"> "Layouts"), enable the "convead" module on all layouts.
+
+Manual installation
+--------------------------
+
+1. Transfer the contents of the "convead.ocmod / upload /" folder to the site root;
+2. Rename the file "convead.ocmod / install.xml" to "convead.ocmod.xml";
+3. Go to the site control panel in the section "Modules"> "Installing extensions" ("Extensions"> "Extension Installer");
+4. Click "Upload" and select the "convead.ocmod.xml" file;
+5. Go to the site control panel in the section "Modules"> "Modules" ("Extensions"> "Modules") find Convead and click "Activate" ("Install");
+6. Click "Edit";
+7. Enter app_key from your convead account;
+8. Change "Status" to "Enabled";
+9. Save;
+10. Go to the site control panel in the section "Modules"> "Modifications" ("Extensions"> "Modifications") and click "Refresh";
+11. Go to the site control panel in the "System"> "Design"> "Layouts" ("System"> "Design"> "Layouts"), enable the "convead" module on all layouts.
+
+------------------------
 
 Требования к CMS
 ----------------
